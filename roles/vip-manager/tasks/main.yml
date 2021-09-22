@@ -1,0 +1,17 @@
+---
+
+- name: VIP-Manager | Install VIP-Manager
+  dnf:
+    name: 'https://github.com/cybertec-postgresql/vip-manager/releases/download/v1.0.1/vip-manager_1.0.1-1_amd64.rpm'
+    state: present
+    disable_gpg_check: true
+
+- name: VIP-Manager | Copy VIP-Manager config file
+  template:
+    src: vip-manager.yml.j2
+    dest: /etc/default/vip-manager.yml
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - vip-manager start and enable

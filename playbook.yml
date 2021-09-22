@@ -1,0 +1,36 @@
+---
+- name: Common install and configure role
+  hosts: all
+  gather_facts: true
+  become: true
+  roles:
+    - common
+  tags:
+    - common
+
+- name: Consul install and configure role
+  hosts: dcs
+  gather_facts: true
+  become: true
+  roles:
+    - consul
+  tags:
+    - consul
+
+- name: Patroni + Postgresql install and configure role
+  hosts: db
+  gather_facts: true
+  become: true
+  roles:
+    - patroni
+  tags:
+    - patroni
+
+- name: Install and configure VIP-Manager
+  hosts: db
+  gather_facts: true
+  become: true
+  roles:
+    - vip-manager
+  tags:
+    - vip-manager

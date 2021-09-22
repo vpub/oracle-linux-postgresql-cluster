@@ -1,0 +1,8 @@
+---
+
+- name: patroni start and enable
+  systemd:
+    name: patroni
+    state: started
+    daemon-reload: true
+    enabled: true

@@ -1,0 +1,7 @@
+---
+
+- name: chronyd start and enable
+  systemd:
+    name: chronyd
+    state: started
+    enabled: true

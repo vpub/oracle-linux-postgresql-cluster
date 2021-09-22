@@ -1,0 +1,8 @@
+---
+
+- name: vip-manager start and enable
+  systemd:
+    name: vip-manager
+    state: started
+    daemon-reload: true
+    enabled: true

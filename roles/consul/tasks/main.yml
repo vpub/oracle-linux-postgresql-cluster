@@ -1,0 +1,37 @@
+---
+
+- name: Consul | Add hashicorp repo
+  get_url:
+    url: https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+    dest: /etc/yum.repos.d/hashicorp.repo
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Consul | Install Consul
+  yum:
+    name: consul
+    state: present
+    update_cache: true
+
+- name: Consul | Configure systemd service file for Consul
+  template:
+    src: consul.service.j2
+    dest: /etc/systemd/system/consul.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Consul | Just force systemd to reread configs (2.4 and above)
+  systemd:
+    daemon_reload: true
+
+- name: Consul | Configure Consul
+  template:
+    src: consul.json.j2
+    dest: /etc/consul.d/consul.json
+    owner: consul
+    group: consul
+    mode: '0644'
+  notify:
+    - Consul | start Consul

@@ -1,0 +1,43 @@
+---
+
+- name: Install epel repo
+  template:
+    src: ol8-epel.repo.j2
+    dest: /etc/yum.repos.d/ol8-epel.repo
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Common install required packages
+  dnf:
+    name:
+      - wget
+      - chrony
+      - jq
+      - vim
+      - gcc
+      - dnf-utils
+      - zip
+      - unzip
+      - bash-completion
+      - mc
+      - glibc-langpack-ru
+    state: present
+    update_cache: true
+  notify:
+    - chronyd start and enable
+
+- name: Set timezone
+  timezone:
+    name: "Europe/Moscow"
+
+- name: Set selinux in permissive mode
+  selinux:
+    policy: targeted
+    state: permissive
+
+- name: Common turn off Firewalld
+  systemd:
+    name: firewalld
+    state: stopped
+    enabled: false

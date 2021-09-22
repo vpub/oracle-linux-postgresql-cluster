@@ -1,0 +1,44 @@
+---
+
+- name: Patroni | Add Postgresql key
+  rpm_key:
+    state: present
+    key: https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-12
+
+- name: Patroni | Add Postgresql repository
+  dnf:
+    name: 'https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm'
+    state: present
+
+- name: Patroni | Disable the built-in PostgreSQL module
+  shell: dnf -qy module disable postgresql
+
+- name: Patroni | Install postgresql12
+  dnf:
+    name: postgresql12-server
+    state: present
+    update_cache: true
+
+- name: Patroni | Install Patroni
+  dnf:
+    name: 'https://github.com/cybertec-postgresql/patroni-packaging/releases/download/1.6.5-1/patroni-1.6.5-1.rhel7.x86_64.rpm'
+    state: present
+    disable_gpg_check: true
+
+- name: Patroni | Put pgpass
+  template:
+    src: pgpass.j2
+    dest: /var/lib/pgsql/.pgpass
+    owner: postgres
+    group: postgres
+    mode: '0600'
+
+- name: Patroni | Copy Patroni config file
+  template:
+    src: patroni.yml.j2
+    dest: /opt/app/patroni/etc/postgresql.yml
+    owner: postgres
+    group: postgres
+    mode: '0644'
+  notify:
+    - patroni start and enable
