@@ -47,6 +47,7 @@
   192.168.100.10  - consul01 [consul]
   192.168.100.20  - consul02 [consul]
   192.168.100.30  - consul03 [consul]
+  192.168.100.40  - mon01 [monitoring]
   192.168.100.50  - pg01 [patroni, vip-manager, postgresql]
   192.168.100.60  - pg02 [patroni, vip-manager, postgresql]
   192.168.100.100 - pg_cluster_virtual_ip
