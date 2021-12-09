@@ -20,6 +20,12 @@ MACHINES = {
                       {ip: '192.168.100.30', adapter: 3, netmask: "255.255.255.0"},
                      ],
             },
+  :mon01 => {
+             :box_name => "oraclelinux/8",
+             :net => [
+                      {ip: '192.168.100.40', adapter: 3, netmask: "255.255.255.0"},
+                     ],
+            },
   :pg01 => {
              :box_name => "oraclelinux/8",
              :net => [
